@@ -16,12 +16,33 @@ const displayProducts = (products) => {
     const productDiv = document.createElement("div");
     productDiv.className = "product";
     productDiv.innerHTML = `
-        <img class="" src="${product.image}" alt="${product.title}">
+        <img src="${product.image}" alt="${product.title}">
         <h3>${product.title}</h3>
         <p>Fiyat: $${product.price}</p>
-        <button onclick="addToCart('${product.title}', ${product.price}, '${product.image}')">Sepete Ekle</button>`;
+        <button onclick="showProductModal('${product.title}', ${product.price}, '${product.image}')">Sepete Ekle</button>`;
     productList.appendChild(productDiv);
   });
+};
+
+const showProductModal = (title, price, image) => {
+  const modal = document.createElement("div");
+  modal.className = "modal";
+
+  modal.innerHTML = `
+    <div class="modal-content">
+      <span class="close-button" onclick="closeModal(this)">&times;</span>
+      <img src="${image}" alt="${title}" class="modal-image">
+      <h3>${title}</h3>
+      <p>Fiyat: $${price}</p>
+      <button onclick="addToCart('${title}', ${price}, '${image}')">Sepete Ekle</button>
+    </div>`;
+
+  document.body.appendChild(modal);
+};
+
+const closeModal = (button) => {
+  const modal = button.closest(".modal");
+  modal.remove();
 };
 
 const cart = [];
@@ -32,6 +53,7 @@ const addToCart = (title, price, image) => {
   cart.push({ title, price, image });
 
   updateCartDisplay(cartItemsList);
+  document.querySelector(".modal").remove();
 };
 
 const updateCartDisplay = (cartItemsList) => {
@@ -46,4 +68,5 @@ const updateCartDisplay = (cartItemsList) => {
     cartItemsList.appendChild(listItem);
   });
 };
+
 window.onload = fetchProducts;
