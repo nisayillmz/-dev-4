@@ -12,17 +12,17 @@ const displayProducts = (products) => {
   const productList = document.getElementById("product-list");
   productList.innerHTML = "";
 
-  products.forEach((product, index) => {
+  products.forEach((product) => {
     const productDiv = document.createElement("div");
     productDiv.className = "product";
     productDiv.innerHTML = `
         <img src="${product.image}" alt="${product.title}">
         <h3>${product.title}</h3>
         <p>Fiyat: $${product.price}</p>
-        <button id="add-to-cart-${index})">Sepete Ekle</button>`;
+        <button class="add-to-cart">Sepete Ekle</button>`;
     productList.appendChild(productDiv);
 
-    const button = document.getElementById(`add-to-cart-${index}`);
+    const button = productDiv.querySelector(".add-to-cart");
     button.addEventListener("click", () => {
       showProductModal(product.title, product.price, product.image);
     });
